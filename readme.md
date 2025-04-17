@@ -1,0 +1,21 @@
+Todos:
+- Identity Management System (Keycloak)
+- Admin Panel Interface
+- Admin API (Management Endpoints)
+- Message Broker (Apache Kafka)
+- Time-Series Database (TimescaleDB)
+- User Web Interface (Trading UI)
+- Mobile Applications (iOS/Android)
+- Trading API (REST/WebSocket)
+- Matching Engine (order processing core)
+- Cryptocurrency Storage Wallets (Hot/Cold Wallets)
+- Notification System (email/SMS/push)
+- Analytics Dashboard (charts, trade history)
+- KYC/AML Verification System
+- Monitoring System (Prometheus/Grafana)
+- Developer Documentation (API docs)
+- Referral Program System
+- Fiat Gateway Support (bank payments)
+- Backup & Disaster Recovery
+- Multi-language Support
+- User Feedback System
