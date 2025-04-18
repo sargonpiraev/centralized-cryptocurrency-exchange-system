@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { Box, CssBaseline, ThemeProvider, createTheme, Card } from '@mui/material'
+import { useDispatch, useSelector } from 'react-redux'
 import TradingChart from './components/TradingChart'
 import OrderForm from './components/OrderForm'
 import OrderBook from './components/OrderBook'
 import LoadingFlower from './components/LoadingFlower'
 import TradingPairSelector from './components/TradingPairSelector'
 import TradingTables from './components/TradingTables'
+import { setCurrentSymbol, selectCurrentSymbol } from './store/slices/tradingSlice'
 import { 
   mockCandlesByPair, 
   mockOrdersByPair, 
@@ -32,7 +34,8 @@ const theme = createTheme({
 
 const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true)
-  const [selectedPair, setSelectedPair] = useState(tradingPairs[0].symbol)
+  const dispatch = useDispatch()
+  const selectedPair = useSelector(selectCurrentSymbol)
 
   useEffect(() => {
     // Simulate loading time
@@ -44,7 +47,7 @@ const App: React.FC = () => {
   }, [])
 
   const handlePairChange = (pair: string) => {
-    setSelectedPair(pair)
+    dispatch(setCurrentSymbol(pair))
   }
 
   const handleCancelOrder = (orderId: string) => {
@@ -88,7 +91,7 @@ const App: React.FC = () => {
             <TradingPairSelector
               pairs={tradingPairs}
               selectedPair={selectedPair}
-              onPairChange={setSelectedPair}
+              onPairChange={handlePairChange}
             />
           </Box>
           <Box sx={{ 
