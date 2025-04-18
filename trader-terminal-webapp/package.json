@@ -24,6 +24,7 @@
     "socket.io-client": "^4.7.4"
   },
   "devDependencies": {
+    "@types/node": "^22.14.1",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
@@ -32,7 +33,13 @@
     "eslint": "^8.56.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "msw": "^2.7.4",
     "typescript": "^5.2.2",
     "vite": "^5.1.0"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }

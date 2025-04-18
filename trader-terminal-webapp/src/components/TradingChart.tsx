@@ -1,21 +1,15 @@
 import React, { useEffect, useRef } from 'react';
 import { createChart, IChartApi, ISeriesApi, CandlestickData } from 'lightweight-charts';
-import { Box, CircularProgress } from '@mui/material';
-import { useGetCandlesQuery } from '../store/api';
-import { useAppSelector } from '../store/hooks';
-import { selectCurrentSymbol } from '../store/slices/tradingSlice';
-import { RootState } from '../store';
+import { Box } from '@mui/material';
 
-const TradingChart: React.FC = () => {
+interface TradingChartProps {
+  data: CandlestickData[];
+}
+
+const TradingChart: React.FC<TradingChartProps> = ({ data }) => {
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<IChartApi | null>(null);
   const seriesRef = useRef<ISeriesApi<'Candlestick'> | null>(null);
-  const currentSymbol = useAppSelector(selectCurrentSymbol);
-
-  const { data: candles, isLoading, error } = useGetCandlesQuery({
-    symbol: currentSymbol,
-    timeframe: '1m',
-  });
 
   useEffect(() => {
     if (!chartContainerRef.current) return;
@@ -66,50 +60,14 @@ const TradingChart: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (seriesRef.current && candles && candles.length > 0) {
+    if (seriesRef.current && data && data.length > 0) {
       try {
-        const formattedData: CandlestickData[] = candles.map((candle) => ({
-          time: (candle.timestamp / 1000) as unknown as string,
-          open: candle.open,
-          high: candle.high,
-          low: candle.low,
-          close: candle.close,
-        }));
-        seriesRef.current.setData(formattedData);
+        seriesRef.current.setData(data);
       } catch (error) {
         console.error('Error setting chart data:', error);
       }
     }
-  }, [candles]);
-
-  if (isLoading) {
-    return (
-      <Box sx={{ 
-        width: '100%', 
-        height: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
-
-  if (error) {
-    return (
-      <Box sx={{ 
-        width: '100%', 
-        height: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        color: 'error.main',
-      }}>
-        Error loading chart data
-      </Box>
-    );
-  }
+  }, [data]);
 
   return (
     <Box sx={{ 

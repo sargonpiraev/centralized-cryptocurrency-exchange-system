@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Box, CssBaseline, ThemeProvider, createTheme, Card } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
-import TradingChart from './components/TradingChart'
 import OrderForm from './components/OrderForm'
 import OrderBook from './components/OrderBook'
 import LoadingFlower from './components/LoadingFlower'
@@ -9,12 +8,12 @@ import TradingPairSelector from './components/TradingPairSelector'
 import TradingTables from './components/TradingTables'
 import { setCurrentSymbol, selectCurrentSymbol } from './store/slices/tradingSlice'
 import { 
-  mockCandlesByPair, 
   mockOrdersByPair, 
   mockTradesByPair, 
   mockOrderBookByPair,
   tradingPairs 
 } from './mockData'
+import TradingChartContainer from './components/TradingChartContainer'
 
 const theme = createTheme({
   palette: {
@@ -99,7 +98,7 @@ const App: React.FC = () => {
             position: 'relative',
             minHeight: 0
           }}>
-            <TradingChart candles={mockCandlesByPair[selectedPair]} />
+            <TradingChartContainer />
           </Box>
         </Card>
         <Card sx={{ p: 1, gridColumn: '2', minHeight: 0 }}>
