@@ -1,16 +1,21 @@
 import React, { useEffect, useRef } from 'react';
 import { createChart, IChartApi, ISeriesApi, CandlestickData } from 'lightweight-charts';
-import { Box } from '@mui/material';
-import { Candle } from '../types';
+import { Box, CircularProgress } from '@mui/material';
+import { useGetCandlesQuery } from '../store/api';
+import { useAppSelector } from '../store/hooks';
+import { selectCurrentSymbol } from '../store/slices/tradingSlice';
+import { RootState } from '../store';
 
-interface TradingChartProps {
-  candles: Candle[];
-}
-
-const TradingChart: React.FC<TradingChartProps> = ({ candles }) => {
+const TradingChart: React.FC = () => {
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<IChartApi | null>(null);
   const seriesRef = useRef<ISeriesApi<'Candlestick'> | null>(null);
+  const currentSymbol = useAppSelector(selectCurrentSymbol);
+
+  const { data: candles, isLoading, error } = useGetCandlesQuery({
+    symbol: currentSymbol,
+    timeframe: '1m',
+  });
 
   useEffect(() => {
     if (!chartContainerRef.current) return;
@@ -61,7 +66,7 @@ const TradingChart: React.FC<TradingChartProps> = ({ candles }) => {
   }, []);
 
   useEffect(() => {
-    if (seriesRef.current && candles.length > 0) {
+    if (seriesRef.current && candles && candles.length > 0) {
       try {
         const formattedData: CandlestickData[] = candles.map((candle) => ({
           time: (candle.timestamp / 1000) as unknown as string,
@@ -76,6 +81,35 @@ const TradingChart: React.FC<TradingChartProps> = ({ candles }) => {
       }
     }
   }, [candles]);
+
+  if (isLoading) {
+    return (
+      <Box sx={{ 
+        width: '100%', 
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box sx={{ 
+        width: '100%', 
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: 'error.main',
+      }}>
+        Error loading chart data
+      </Box>
+    );
+  }
 
   return (
     <Box sx={{ 
