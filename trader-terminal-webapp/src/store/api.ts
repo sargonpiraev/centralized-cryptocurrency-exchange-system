@@ -2,6 +2,17 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { CandleData, OrderBook, Order, Trade } from './types';
 
 const API_BASE_URL = 'http://localhost:3000/api';
+const WS_BASE_URL = 'ws://localhost:3000/ws';
+
+
+const updateCandle = (data: CandleData[], newCandle: CandleData) => {
+  const index = data.findIndex(c => c.timestamp === newCandle.timestamp);
+  if (index !== -1) {
+    data[index] = newCandle;
+  } else {
+    data.push(newCandle);
+  }
+}     
 
 export const api = createApi({
   reducerPath: 'api',
@@ -18,6 +29,14 @@ export const api = createApi({
         url: '/candles',
         params: { symbol, timeframe, startTime, endTime },
       }),
+      async onCacheEntryAdded(arg, { updateCachedData, cacheDataLoaded, cacheEntryRemoved }) {
+        const ws = new WebSocket(`${WS_BASE_URL}/candles?symbol=${arg.symbol}&timeframe=${arg.timeframe}`);
+        await cacheDataLoaded;
+        ws.onmessage = (event) => updateCachedData((data: CandleData[]) => updateCandle(data, JSON.parse(event.data)));
+        ws.onerror = (error) => console.error('WebSocket error:', error);
+        await cacheEntryRemoved;
+        ws.close();
+      },
     }),
 
     // Get current order book

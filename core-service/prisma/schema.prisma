@@ -1,0 +1,108 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  balances  Balance[]
+  orders    Order[]
+  trades    Trade[]  @relation("AccountTrades")
+}
+
+model Balance {
+  id        String   @id @default(uuid())
+  accountId String
+  currency  String
+  amount    Decimal  @default(0)
+  hold      Decimal  @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  account   Account  @relation(fields: [accountId], references: [id])
+  transactions Transaction[]
+
+  @@unique([accountId, currency])
+}
+
+model Order {
+  id            String        @id @default(uuid())
+  accountId     String
+  type          OrderType
+  side          OrderSide
+  status        OrderStatus
+  price         Decimal
+  amount        Decimal
+  filledAmount  Decimal       @default(0)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  account       Account       @relation(fields: [accountId], references: [id])
+  trades        Trade[]
+  transactions  Transaction[]
+}
+
+model Trade {
+  id            String   @id @default(uuid())
+  orderId       String
+  accountId     String
+  price         Decimal
+  amount        Decimal
+  fee           Decimal
+  createdAt     DateTime @default(now())
+  order         Order    @relation(fields: [orderId], references: [id])
+  account       Account  @relation("AccountTrades", fields: [accountId], references: [id])
+  transactions  Transaction[]
+}
+
+model Transaction {
+  id            String        @id @default(uuid())
+  type          TransactionType
+  balanceId     String
+  orderId       String?
+  tradeId       String?
+  amount        Decimal
+  createdAt     DateTime      @default(now())
+  balance       Balance       @relation(fields: [balanceId], references: [id])
+  order         Order?        @relation(fields: [orderId], references: [id])
+  trade         Trade?        @relation(fields: [tradeId], references: [id])
+}
+
+enum OrderType {
+  LIMIT
+  MARKET
+}
+
+enum OrderSide {
+  BUY
+  SELL
+}
+
+enum OrderStatus {
+  PENDING
+  OPEN
+  PARTIALLY_FILLED
+  FILLED
+  CANCELLED
+  REJECTED
+}
+
+enum TransactionType {
+  DEPOSIT
+  WITHDRAWAL
+  HOLD
+  RELEASE
+  TRADE
+  FEE
+}

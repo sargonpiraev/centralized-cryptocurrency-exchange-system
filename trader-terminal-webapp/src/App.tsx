@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Box, CssBaseline, ThemeProvider, createTheme, Card } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import OrderForm from './components/OrderForm'
-import OrderBook from './components/OrderBook'
+import OrderBookContainer from './components/OrderBookContainer'
 import LoadingFlower from './components/LoadingFlower'
 import TradingPairSelector from './components/TradingPairSelector'
 import TradingTables from './components/TradingTables'
@@ -10,9 +10,8 @@ import { setCurrentSymbol, selectCurrentSymbol } from './store/slices/tradingSli
 import { 
   mockOrdersByPair, 
   mockTradesByPair, 
-  mockOrderBookByPair,
   tradingPairs 
-} from './mockData'
+} from './mocks/mockData'
 import TradingChartContainer from './components/TradingChartContainer'
 
 const theme = createTheme({
@@ -105,7 +104,7 @@ const App: React.FC = () => {
           <OrderForm selectedPair={selectedPair} />
         </Card>
         <Card sx={{ p: 1, minHeight: 0 }}>
-          <OrderBook orderBook={mockOrderBookByPair[selectedPair]} />
+          <OrderBookContainer />
         </Card>
         <Card sx={{ p: 1, gridColumn: '1', gridRow: '2', minHeight: 0 }}>
           <TradingTables

@@ -7,33 +7,27 @@ export interface CandleData {
   volume: number;
 }
 
-export interface OrderBookEntry {
-  price: number;
-  amount: number;
-  total: number;
-}
-
 export interface OrderBook {
-  bids: OrderBookEntry[];
-  asks: OrderBookEntry[];
+  bids: [number, number][];
+  asks: [number, number][];
 }
 
 export interface Order {
   id: string;
   symbol: string;
-  type: 'limit' | 'market';
   side: 'buy' | 'sell';
+  type: 'limit' | 'market';
   price: number;
-  amount: number;
-  status: 'open' | 'filled' | 'cancelled';
-  createdAt: string;
+  quantity: number;
+  status: 'open' | 'filled' | 'canceled';
+  timestamp: number;
 }
 
 export interface Trade {
   id: string;
   symbol: string;
   price: number;
-  amount: number;
+  quantity: number;
   side: 'buy' | 'sell';
-  timestamp: string;
+  timestamp: number;
 } 
