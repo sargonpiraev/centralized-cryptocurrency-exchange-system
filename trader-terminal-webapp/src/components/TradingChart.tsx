@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { createChart, IChartApi, ISeriesApi, CandlestickData, CandlestickSeries } from 'lightweight-charts';
+import { createChart, IChartApi, ISeriesApi, CandlestickData } from 'lightweight-charts';
 import { Box } from '@mui/material';
 import { Candle } from '../types';
 
@@ -29,7 +29,7 @@ const TradingChart: React.FC<TradingChartProps> = ({ candles }) => {
         },
       });
 
-      const candlestickSeries = chart.addSeries(CandlestickSeries, {
+      const candlestickSeries = chart.addCandlestickSeries({
         upColor: '#26a69a',
         downColor: '#ef5350',
         borderVisible: false,
