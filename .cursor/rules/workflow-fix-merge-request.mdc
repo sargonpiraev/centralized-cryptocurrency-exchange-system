@@ -1,5 +1,5 @@
 ---
-description: Здесь описывается процесс исправления замечаний по мерж реквесту. 
+description: Здесь описывается процесс исправления замечаний по мерж реквесту.
 globs: 
 alwaysApply: false
 ---
@@ -19,7 +19,11 @@ When requested to "Fix merge request issues", follow this workflow.
 1. Get merge request information from GitLab
    - Note: project_id should be in format "namespace/project-name" from the merge request URL
    - Extract Jira ticket number from the branch name
-2. Get all review comments and discussions from the merge request
+2. Check out the feature branch locally
+   - Use the branch name from the merge request
+   - Ensure you're working with the latest version: `git pull origin branch-name`
+3. Get all review comments and discussions from the merge request
+   - Note: project_id should be in format "namespace/project-name" from the merge request URL
 
 ### 2. Jira Status Management
 1. Verify the Jira ticket is in "To Do" status (returned from Code Review)
