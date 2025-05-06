@@ -3,39 +3,56 @@ description: Здесь описывается сценарий для Выпо�
 globs: 
 alwaysApply: false
 ---
-Сode Review Workflow
+# Code Review Workflow
 
-Здесь описан алгоритм выполнения процесса code review 
-То есть когда я говорю: Сделай код-ревью этого мерж реквеста
-то нужно этот процесс использовать. 
+This document describes the standardized process for conducting code reviews in our system.
 
-Параметр: ссылка на Мерж реквест Gitlab
+## Usage
+When requested to "Review this merge request", follow this workflow.
 
+## Required Input
+- GitLab Merge Request URL
 
-Порядок проведения код-ревью такой:
+## Workflow Steps
 
-Получи информацию по мерж-реквесту из GitLab 
-(важно! project_id = namespace/project-name из ссылки на мершей квест)
+### 1. Initial Setup
+1. Get merge request information from GitLab
+   - Note: project_id should be in format "namespace/project-name" from the merge request URL
+   - Extract Jira ticket number from the branch name
 
-В названии ветки есть номер Jira-тикета
-Проверь, что он в статусе To Code Review. 
-Выставить статус этому Jira-тикету в Code Review In Progress 
-Получить описание этого Jira тикета из джири
+### 2. Jira Status Management
+1. Verify the Jira ticket is in "To Code Review" status
+2. Update the Jira ticket status to "Code Review In Progress"
+3. Retrieve full Jira ticket details (using fields=*all)
 
-Получить описание по этой Jira задаче
-(используй fields=*all для получения всех полей) 
+### 3. Context Gathering
+1. Check Jira ticket description for:
+   - Confluence documentation links
+     - If found, retrieve and analyze the documentation
+   - Epic links
+     - If found:
+       - Retrieve Epic details
+       - Check Epic description for Confluence links
+       - If Confluence links found, retrieve and analyze the documentation
 
-Если в описании Jira Ticket есть ссылка на Confluence по документации
-  то вытащите информацию по этой документации.
-Если в описании Jira Ticket есть ссылка на Эпик 
-  то вытащите информацию по этому Эпику.
-Если в описании Эпика есть ссылка на Confluence по документации
-  то вытащите информацию по этой документации.
-Получить дифф по этому мерж-реквесту из GitLab
-проверить этот диф на соответствии требованиям по задаче
-Если все хорошо
-  то отправить комментарий в Джире что все хорошо ставлю Аппрув.
-  И поставить статус Jira Ticket в To Test
-Если есть какие-то замечания
-  то отправить комментарий с замечаниями В GitLab Мерж-реквест
-  и поставить статус jira тикету в To Do
+### 4. Code Review
+1. Get merge request diff from GitLab
+2. Review changes against:
+   - Task requirements
+   - Code quality standards
+   - Project conventions
+
+### 5. Review Resolution
+- If review passes:
+  1. Add comment in Jira stating "Approved after review"
+  2. Update Jira ticket status to "To Test"
+  
+- If issues found:
+  1. Add detailed review comments in GitLab merge request
+  2. Update Jira ticket status to "To Do"
+  3. Include specific recommendations for improvements
+
+## Notes
+- All status transitions should be properly tracked
+- Comments should be constructive and specific
+- Review should focus on both functionality and code quality

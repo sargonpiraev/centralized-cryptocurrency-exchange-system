@@ -3,31 +3,59 @@ description: Здесь описывается сценарий выполнен
 globs: 
 alwaysApply: false
 ---
-Task Doing Workflow
+# Task Implementation Workflow
 
-Здесь описан алгоритм выполнения задачи из джиры 
-То есть когда я говорю: Сделай Джира задачу xxx
-то нужно этот процесс использовать. 
+This document describes the standardized process for implementing Jira tasks in our system.
 
-Параметр: ссылка на Jira тикет
+## Usage
+When requested to "Implement Jira task XXX", follow this workflow.
 
+## Required Input
+- Jira Ticket URL
 
-Порядок выполнения jira тикета Такой:
-Получи информацию по Джира Тикету из Джира
-Проверь, что он в статусе To Do
-Выставить статус этому Jira-тикету в In Progress 
-Получить описание этого Jira тикета из джири
+## Workflow Steps
 
-Получить описание по этой Jira задаче
-(используй fields=*all для получения всех полей) 
+### 1. Initial Setup
+1. Get Jira ticket information
+2. Verify the ticket is in "To Do" status
+3. Update the ticket status to "In Progress"
+4. Retrieve full ticket details (using fields=*all)
 
-Если в описании Jira Ticket есть ссылка на Confluence по документации
-  то вытащите информацию по этой документации.
-Если в описании Jira Ticket есть ссылка на Эпик 
-  то вытащите информацию по этому Эпику.
-Если в описании Эпика есть ссылка на Confluence по документации
-  то вытащите информацию по этой документации.
-Создай фича ветку Для Jira Ticket И перейди в нее. 
-Выполни задание
-Всё закоммить и запуш в ветку. 
-Переведи JiRa-тикет в статус To Code Review 
+### 2. Context Gathering
+1. Check Jira ticket description for:
+   - Confluence documentation links
+     - If found, retrieve and analyze the documentation
+   - Epic links
+     - If found:
+       - Retrieve Epic details
+       - Check Epic description for Confluence links
+       - If Confluence links found, retrieve and analyze the documentation
+
+### 3. Development Setup
+1. Create a feature branch from main
+   - Branch naming format: feat/JIRA-XXX/short-description
+   - Example: feat/PROJ-123/add-user-authentication
+2. Switch to the newly created branch
+
+### 4. Implementation
+1. Implement the required changes
+2. Follow project coding standards and conventions
+3. Ensure all requirements are met
+4. Add/update tests if necessary
+
+### 5. Version Control
+1. Stage all changes
+2. Commit changes with descriptive messages
+   - Follow commit message conventions
+   - Reference Jira ticket number
+3. Push changes to the remote repository
+
+### 6. Task Completion
+1. Verify all changes are pushed
+2. Update Jira ticket status to "To Code Review"
+
+## Notes
+- All status transitions should be properly tracked
+- Commit messages should be clear and follow conventions
+- Code should adhere to project standards
+- Documentation should be updated if necessary
