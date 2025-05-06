@@ -1,7 +1,7 @@
 ---
-description: 
+description: Здесь описывается сценарий выполнения задачи из Jira. 
 globs: 
-alwaysApply: true
+alwaysApply: false
 ---
 Task Doing Workflow
 
@@ -17,7 +17,10 @@ Task Doing Workflow
 Проверь, что он в статусе To Do
 Выставить статус этому Jira-тикету в In Progress 
 Получить описание этого Jira тикета из джири
-получить описаник по этой Jira задаче
+
+Получить описание по этой Jira задаче
+(используй fields=*all для получения всех полей) 
+
 Если в описании Jira Ticket есть ссылка на Confluence по документации
   то вытащите информацию по этой документации.
 Если в описании Jira Ticket есть ссылка на Эпик 
