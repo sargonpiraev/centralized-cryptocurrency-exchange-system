@@ -13,22 +13,10 @@ import {
   tradingPairs 
 } from './mocks/mockData'
 import TradingChartContainer from './components/TradingChartContainer'
-
-const theme = createTheme({
-  palette: {
-    mode: 'dark',
-    primary: {
-      main: '#90caf9',
-    },
-    secondary: {
-      main: '#f48fb1',
-    },
-    background: {
-      default: '#121212',
-      paper: '#1e1e1e',
-    },
-  },
-})
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { theme } from './theme'
+import { LoginPage } from './components/auth/LoginPage'
+import { RegisterPage } from './components/auth/RegisterPage'
 
 const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true)
@@ -65,6 +53,13 @@ const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/" element={<Navigate to="/login" replace />} />
+        </Routes>
+      </BrowserRouter>
       <Box sx={{ 
         height: '100vh',
         width: '100vw',
