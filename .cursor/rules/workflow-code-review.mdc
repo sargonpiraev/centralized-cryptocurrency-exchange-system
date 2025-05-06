@@ -34,6 +34,13 @@ When requested to "Review this merge request", follow this workflow.
        - Retrieve Epic details
        - Check Epic description for Confluence links
        - If Confluence links found, retrieve and analyze the documentation
+2. Analyze affected libraries and frameworks:
+   - Review merge request changes to identify used libraries
+   - Use Context 7 to fetch up-to-date documentation for each library
+   - Pay special attention to:
+     - API changes and deprecations
+     - Best practices and recommended patterns
+     - Version-specific features and limitations
 
 ### 4. Code Review
 1. Get merge request diff from GitLab

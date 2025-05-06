@@ -1,0 +1,73 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Fix Merge Request Workflow
+
+This document describes the standardized process for fixing issues identified during code review in our system.
+
+## Usage
+When requested to "Fix merge request issues", follow this workflow.
+
+## Required Input
+- GitLab Merge Request URL
+
+## Workflow Steps
+
+### 1. Initial Setup
+1. Get merge request information from GitLab
+   - Note: project_id should be in format "namespace/project-name" from the merge request URL
+   - Extract Jira ticket number from the branch name
+2. Get all review comments and discussions from the merge request
+
+### 2. Jira Status Management
+1. Verify the Jira ticket is in "To Do" status (returned from Code Review)
+2. Update the Jira ticket status to "In Progress"
+3. Retrieve full Jira ticket details (using fields=*all)
+
+### 3. Context Gathering
+1. Check Jira ticket description for:
+   - Confluence documentation links
+     - If found, retrieve and analyze the documentation
+   - Epic links
+     - If found:
+       - Retrieve Epic details
+       - Check Epic description for Confluence links
+       - If Confluence links found, retrieve and analyze the documentation
+2. Analyze affected libraries and frameworks:
+   - Review code review comments to identify affected libraries
+   - Use Context 7 to fetch up-to-date documentation for each library
+   - Pay special attention to:
+     - API changes and deprecations
+     - Best practices and recommended patterns
+     - Version-specific features and limitations
+
+### 4. Fix Implementation
+1. For each review comment:
+   - Analyze the feedback
+   - Make necessary code changes
+   - Add a response comment explaining the fix
+   - Mark discussion as resolved when fixed
+2. Run tests to ensure changes haven't introduced new issues
+3. Update documentation if required
+
+### 5. Version Control
+1. Stage all changes
+2. Commit changes with descriptive messages
+   - Follow commit message conventions
+   - Reference Jira ticket number
+   - Include "Fix review comments" in message
+3. Push changes to the same feature branch
+
+### 6. Task Completion
+1. Verify all review comments are addressed
+2. Update Jira ticket status to "To Code Review"
+3. Request a new code review
+
+## Notes
+- All status transitions should be properly tracked
+- Commit messages should be clear and follow conventions
+- Code should adhere to project standards
+- All review comments should be explicitly addressed
+- Documentation should be updated if necessary

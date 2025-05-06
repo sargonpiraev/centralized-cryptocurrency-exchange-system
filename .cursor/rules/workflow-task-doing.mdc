@@ -1,5 +1,5 @@
 ---
-description: Здесь описывается сценарий выполнения задачи из Jira. 
+description: Здесь описывается сценарий выполнения задачи из Jira.
 globs: 
 alwaysApply: false
 ---
@@ -30,6 +30,14 @@ When requested to "Implement Jira task XXX", follow this workflow.
        - Retrieve Epic details
        - Check Epic description for Confluence links
        - If Confluence links found, retrieve and analyze the documentation
+2. Analyze required libraries and frameworks:
+   - Review task requirements to identify libraries and frameworks needed
+   - Use Context 7 to fetch up-to-date documentation for each library
+   - Pay special attention to:
+     - API reference and usage examples
+     - Best practices and recommended patterns
+     - Version-specific features and limitations
+     - Recent changes and deprecation notices
 
 ### 3. Development Setup
 1. Create a feature branch from main
