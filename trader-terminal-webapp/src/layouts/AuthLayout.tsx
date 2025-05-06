@@ -1,6 +1,6 @@
-import React from 'react'
-import { Box } from '@mui/material'
-import { Outlet } from 'react-router-dom'
+import React from 'react';
+import { Box } from '@mui/material';
+import { Outlet } from 'react-router-dom';
 
 const AuthLayout: React.FC = () => {
   return (
@@ -10,11 +10,12 @@ const AuthLayout: React.FC = () => {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      bgcolor: 'background.default'
+      bgcolor: 'background.default',
+      backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.05) 0%, rgba(0, 0, 0, 0) 100%)',
     }}>
       <Outlet />
     </Box>
-  )
-}
+  );
+};
 
-export default AuthLayout 
+export default AuthLayout; 

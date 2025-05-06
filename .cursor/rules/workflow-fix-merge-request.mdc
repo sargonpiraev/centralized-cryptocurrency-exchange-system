@@ -19,9 +19,30 @@ When requested to "Fix merge request issues", follow this workflow.
 1. Get merge request information from GitLab
    - Note: project_id should be in format "namespace/project-name" from the merge request URL
    - Extract Jira ticket number from the branch name
-2. Check out the feature branch locally
-   - Use the branch name from the merge request
-   - Ensure you're working with the latest version: `git pull origin branch-name`
+2. Branch Management
+   - Check current branch: `git branch --show-current`
+   - If on main, create and checkout feature branch:
+     ```
+     git checkout main
+     git pull origin main
+     git checkout -b feat/JIRA-XXX/short-description
+     ```
+   - If feature branch exists:
+     ```
+     git checkout feat/JIRA-XXX/short-description
+     git pull origin feat/JIRA-XXX/short-description
+     ```
+   - Verify branch is up to date with main:
+     ```
+     git fetch origin main
+     git merge origin/main
+     ```
+   - If work was started in wrong branch:
+     ```
+     git stash
+     git checkout correct-branch
+     git stash pop
+     ```
 3. Get all review comments and discussions from the merge request
    - Note: project_id should be in format "namespace/project-name" from the merge request URL
 
@@ -75,3 +96,6 @@ When requested to "Fix merge request issues", follow this workflow.
 - Code should adhere to project standards
 - All review comments should be explicitly addressed
 - Documentation should be updated if necessary
+- ⚠️ NEVER commit directly to main branch
+- Always verify you're on the correct feature branch before starting work
+- Follow branching strategy rules for branch naming

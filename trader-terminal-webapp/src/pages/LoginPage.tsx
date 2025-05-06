@@ -1,15 +1,51 @@
-import React from 'react'
-import { Box, Card, TextField, Button, Typography } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import {
+  Box,
+  Card,
+  TextField,
+  Button,
+  Typography,
+  Link,
+  FormControlLabel,
+  Checkbox,
+  InputAdornment,
+  IconButton,
+  Alert,
+} from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { LoginFormData } from '../types/auth';
+import { useAppDispatch } from '../hooks/useAppDispatch';
+import { login } from '../store/slices/authSlice';
+import { selectAuthLoading, selectAuthError } from '../store/selectors/auth';
 
 const LoginPage: React.FC = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const isLoading = useSelector(selectAuthLoading);
+  const error = useSelector(selectAuthError);
+  const [showPassword, setShowPassword] = React.useState(false);
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault()
-    // TODO: Implement actual login logic
-    navigate('/trading')
-  }
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>({
+    defaultValues: {
+      email: '',
+      password: '',
+      rememberMe: false,
+    },
+  });
+
+  const onSubmit = async (data: LoginFormData) => {
+    const result = await dispatch(login(data));
+    if (login.fulfilled.match(result)) {
+      navigate('/trading');
+    }
+  };
 
   return (
     <Box sx={{ 
@@ -28,46 +64,90 @@ const LoginPage: React.FC = () => {
         <Typography variant="h5" component="h1" gutterBottom align="center">
           Login
         </Typography>
-        <form onSubmit={handleSubmit}>
+
+        {error && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {error}
+          </Alert>
+        )}
+
+        <form onSubmit={handleSubmit(onSubmit)}>
           <TextField
             margin="normal"
-            required
             fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
+            label="Email"
             autoComplete="email"
             autoFocus
+            error={!!errors.email}
+            helperText={errors.email?.message}
+            {...register('email', {
+              required: 'Email is required',
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: 'Invalid email address',
+              },
+            })}
           />
+
           <TextField
             margin="normal"
-            required
             fullWidth
-            name="password"
             label="Password"
-            type="password"
-            id="password"
+            type={showPassword ? 'text' : 'password'}
             autoComplete="current-password"
+            error={!!errors.password}
+            helperText={errors.password?.message}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={() => setShowPassword(!showPassword)}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            {...register('password', {
+              required: 'Password is required',
+              minLength: {
+                value: 8,
+                message: 'Password must be at least 8 characters',
+              },
+            })}
           />
+
+          <FormControlLabel
+            control={
+              <Checkbox
+                color="primary"
+                {...register('rememberMe')}
+              />
+            }
+            label="Remember me"
+          />
+
           <Button
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
+            disabled={isLoading}
           >
-            Sign In
+            {isLoading ? 'Logging in...' : 'Login'}
           </Button>
-          <Button
-            fullWidth
-            variant="text"
-            onClick={() => navigate('/register')}
-          >
-            Don't have an account? Sign Up
-          </Button>
+
+          <Box sx={{ textAlign: 'center' }}>
+            <Link component={RouterLink} to="/register" variant="body2">
+              {"Don't have an account? Sign Up"}
+            </Link>
+          </Box>
         </form>
       </Card>
     </Box>
-  )
-}
+  );
+};
 
-export default LoginPage 
+export default LoginPage; 
