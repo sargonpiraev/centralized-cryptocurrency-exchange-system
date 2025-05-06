@@ -1,0 +1,44 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# API Gateway Service Architecture
+
+The API Gateway Service acts as the entry point for all external requests to the exchange system.
+
+## Entry Points
+
+- **Main**: [api-gateway-service/src/main.ts](mdc:api-gateway-service/src/main.ts) - Bootstrap NestJS application
+- **App Module**: [api-gateway-service/src/app.module.ts](mdc:api-gateway-service/src/app.module.ts) - Main module configuration
+- **App Controller**: [api-gateway-service/src/app.controller.ts](mdc:api-gateway-service/src/app.controller.ts) - HTTP endpoints
+- **App Service**: [api-gateway-service/src/app.service.ts](mdc:api-gateway-service/src/app.service.ts) - Business logic
+
+## Key Responsibilities
+
+1. Authentication and authorization
+2. Request validation
+3. Rate limiting
+4. Proxying requests to core services
+5. Response formatting
+6. API versioning
+7. WebSocket connections for real-time data
+
+## API Structure
+
+- RESTful endpoints for operations like:
+  - Account management
+  - Order operations
+  - Market data retrieval
+  - Trading history
+- WebSocket endpoints for real-time data:
+  - Market data updates
+  - Order book changes
+  - Trade notifications
+
+## Integration
+
+- Communicates with Core Service primarily via Kafka
+- Maintains cached data for performance
+- Handles both web and mobile client requests
+- Serves external API users like market makers

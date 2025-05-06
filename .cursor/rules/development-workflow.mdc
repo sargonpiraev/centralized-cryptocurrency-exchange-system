@@ -1,0 +1,58 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Development Workflow
+
+This document outlines the development workflow for the cryptocurrency exchange system.
+
+## Getting Started
+
+1. Clone the repository
+2. Install Docker and Docker Compose
+3. Run `docker-compose up` to start all services
+4. Each service can also be run independently for development
+
+## Service Development
+
+### Core Service
+
+- Located at [core-service/](mdc:core-service)
+- Run locally: `npm run start:dev` in the core-service directory
+- Tests: `npm run test` for unit tests
+- Database migrations: Managed through Prisma
+
+### API Gateway Service
+
+- Located at [api-gateway-service/](mdc:api-gateway-service)
+- Run locally: `npm run start:dev` in the api-gateway-service directory
+- Tests: `npm run test` for unit tests
+
+### Web Trader Terminal
+
+- Located at [trader-terminal-webapp/](mdc:trader-terminal-webapp)
+- Run locally: `npm run dev` in the trader-terminal-webapp directory
+- Build: `npm run build` to create production build
+
+## Testing Strategy
+
+1. Unit tests for individual components
+2. Integration tests for service interactions
+3. End-to-end tests for complete user flows
+
+## Code Style and Conventions
+
+- ESLint is used for code linting
+- Prettier for code formatting
+- TypeScript strict mode enabled
+- NestJS conventions for backend services
+- React conventions for frontend applications
+
+## Contribution Process
+
+1. Create a feature branch from main
+2. Develop and test your changes
+3. Submit a pull request with a clear description
+4. Code review and approval required
+5. CI checks must pass before merging

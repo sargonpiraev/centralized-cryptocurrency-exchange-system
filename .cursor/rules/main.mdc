@@ -1,0 +1,56 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Centralized Cryptocurrency Exchange System
+
+This is an open-source centralized cryptocurrency exchange system composed of multiple microservices.
+
+## System Architecture
+
+The system consists of the following components:
+
+### Core Service
+- **Path**: [core-service/](mdc:core-service)
+- **Tech Stack**: TypeScript, NestJS, Prisma
+- **Description**: Main service responsible for orders, trades, transactions, and account balances management
+- **Entry Point**: [core-service/src/main.ts](mdc:core-service/src/main.ts)
+- **Database**: PostgreSQL with Prisma ORM [core-service/prisma/](mdc:core-service/prisma)
+- **Module Structure**: [core-service/src/module/](mdc:core-service/src/module)
+
+### API Gateway Service
+- **Path**: [api-gateway-service/](mdc:api-gateway-service)
+- **Tech Stack**: TypeScript, NestJS
+- **Description**: Public API for trader terminal webapp and for external API users like market makers
+- **Entry Point**: [api-gateway-service/src/main.ts](mdc:api-gateway-service/src/main.ts)
+- **Controllers**: [api-gateway-service/src/app.controller.ts](mdc:api-gateway-service/src/app.controller.ts)
+
+### Web Trader Terminal
+- **Path**: [trader-terminal-webapp/](mdc:trader-terminal-webapp)
+- **Tech Stack**: TypeScript, Vite, React, Material UI
+- **Description**: Web interface for traders
+- **Entry Point**: [trader-terminal-webapp/src/main.tsx](mdc:trader-terminal-webapp/src/main.tsx)
+- **Main App**: [trader-terminal-webapp/src/App.tsx](mdc:trader-terminal-webapp/src/App.tsx)
+- **Components**: [trader-terminal-webapp/src/components/](mdc:trader-terminal-webapp/src/components)
+
+### Mobile Trader Terminal (planned)
+- **Path**: ./trader-terminal-mobapp
+- **Tech Stack**: TypeScript, Expo, Material UI
+- **Description**: Mobile interface for traders
+
+## Infrastructure
+
+The system uses the following infrastructure components:
+
+- **Docker**: [docker-compose.yml](mdc:docker-compose.yml) orchestrates all services
+- **PostgreSQL**: Database for storing exchange data
+- **Kafka**: Message broker for inter-service communication
+
+## Development Guidelines
+
+- Each service follows its own architecture pattern but shares common technologies
+- Services communicate through Kafka events
+- The API Gateway is the entry point for external requests
+- Core Service contains the core business logic
+- Frontend applications (web and mobile) consume the API Gateway

@@ -1,0 +1,48 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Trader Terminal Web Application
+
+The Web Trader Terminal provides a user interface for traders to interact with the exchange.
+
+## Entry Points
+
+- **Main**: [trader-terminal-webapp/src/main.tsx](mdc:trader-terminal-webapp/src/main.tsx) - Application bootstrap
+- **App**: [trader-terminal-webapp/src/App.tsx](mdc:trader-terminal-webapp/src/App.tsx) - Main React component
+- **Store Setup**: [trader-terminal-webapp/src/store/](mdc:trader-terminal-webapp/src/store) - State management
+
+## UI Components
+
+- **Components Directory**: [trader-terminal-webapp/src/components/](mdc:trader-terminal-webapp/src/components)
+- Key components include:
+  - Order entry forms
+  - Market charts
+  - Order book visualizations
+  - Trade history tables
+  - Account balance displays
+  - Authentication UI
+
+## Data Flow
+
+1. API requests to gateway service
+2. WebSocket connections for real-time updates
+3. Local state management with Redux/React context
+4. UI updates based on state changes
+
+## Features
+
+- Real-time market data visualization
+- Order placement and management
+- Account information and balance tracking
+- Trade history and reporting
+- User settings and preferences
+- Authentication and security
+
+## Development
+
+- Built with Vite for fast development experience
+- TypeScript for type safety
+- Material UI for consistent design
+- Responsive design for desktop and tablet

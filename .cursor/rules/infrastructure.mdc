@@ -1,0 +1,53 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Infrastructure Architecture
+
+The cryptocurrency exchange system uses a containerized microservice architecture with multiple supporting services.
+
+## Docker Compose
+
+The main infrastructure is defined in [docker-compose.yml](mdc:docker-compose.yml), which includes:
+
+- PostgreSQL database
+- Kafka message broker
+- Service containers
+
+## Databases
+
+- **PostgreSQL**: Main relational database for the exchange
+  - Stores account data, orders, trades, and transactions
+  - Accessed via Prisma ORM in the Core Service
+
+## Messaging
+
+- **Kafka**: Message broker for asynchronous communication between services
+  - Topics for orders, trades, market data updates
+  - Enables event-driven architecture
+  - Provides reliable message delivery and scaling
+
+## Service Communication
+
+- API Gateway → Core Service: Primarily through Kafka events
+- Web/Mobile Terminals → API Gateway: HTTP/WebSocket
+- External Systems → API Gateway: RESTful API
+
+## Scaling Considerations
+
+- Stateless services can be horizontally scaled
+- Database scaling through read replicas
+- Kafka partitioning for parallel processing
+
+## Security
+
+- API Gateway handles authentication and authorization
+- Services communicate on internal network
+- Sensitive data encrypted at rest and in transit
+
+## Development Environment
+
+- Local development uses Docker Compose
+- Services can be run individually for development
+- Environment variables control configuration

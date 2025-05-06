@@ -1,0 +1,43 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Core Service Architecture
+
+The Core Service is the central component of the cryptocurrency exchange system, handling all critical business logic.
+
+## Entry Points
+
+- **Main**: [core-service/src/main.ts](mdc:core-service/src/main.ts) - Bootstrap NestJS application
+- **App Module**: [core-service/src/app.module.ts](mdc:core-service/src/app.module.ts) - Main module configuration
+- **Prisma Service**: [core-service/src/prisma.service.ts](mdc:core-service/src/prisma.service.ts) - Database connection
+
+## Key Responsibilities
+
+1. Order management (creation, modification, cancellation)
+2. Trade execution
+3. Account balance tracking
+4. Transaction processing
+5. Market data calculation
+
+## Module Structure
+
+Core service follows NestJS modular architecture:
+- Each domain has its own module
+- Controllers handle HTTP requests
+- Services contain business logic
+- DTOs define data transfer objects
+- Entities represent database models
+
+## Database
+
+- Uses PostgreSQL with Prisma ORM
+- Schema defined in [core-service/prisma/schema.prisma](mdc:core-service/prisma/schema.prisma)
+- Migrations managed by Prisma
+
+## Messaging
+
+- Communicates with other services via Kafka
+- Publishes events about trades, orders, and other important changes
+- Consumes events from other services

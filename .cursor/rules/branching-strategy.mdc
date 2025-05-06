@@ -1,0 +1,13 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Branching Strategy
+
+- Main branch is the primary branch
+- Feature branches follow the format: feat/JIRA-XXX/short-description
+- Maximum branch name length: 64 characters
+- Maximum commit message length: 100 characters
+- All feature branches are created from and merged back to main
+- No other branch types are used in this repository
